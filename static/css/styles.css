@@ -1,0 +1,96 @@
+body {
+    background-color: #f3ede8;
+}
+
+.header-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 12px 0px;
+}
+
+.index-header {
+    justify-content: space-around;
+}
+
+.overview-txt-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.overview-txt {
+    width: 70%;
+}
+
+.cards-container {
+    display: flexbox;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    margin: 20px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-title-container {
+    display: flex;
+    justify-content: center;
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+.card-btn-container {
+    display: flex;
+    justify-content: center;
+}
+
+.row {
+    justify-content: space-evenly;
+}
+
+.primary-form-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.form-container {
+    width: 30%;
+}
+.about-txt {
+    font-size: large;
+}
+
+.btn-primary {
+    background-color: #607c91;
+    border-color: #607c91;
+}
+
+.btn-primary:hover {
+    background-color: #445f74;
+    border-color: #445f74;
+}
+
+.btn-danger {
+    background-color: #b46c4c;
+    border-color: #b46c4c;
+}
+
+.btn-danger:hover {
+    background-color: #c9412f;
+    border-color: #c9412f;
+}
+
+form {
+    margin-bottom: 26px;
+}

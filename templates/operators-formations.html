@@ -1,0 +1,103 @@
+{% extends 'index.html' %} {% block content %}
+<div class="container-fluid">
+    <div class="header-container">
+        <h1>Operators_Formations</h1>
+    </div>
+    <p class="about-txt">View, add, update, and delete Operators_Formations</p>
+    <table class="table table-sm table-striped table-hover">
+        <thead>
+            <tr>
+                {% for key in operators_formations[0].keys() %}
+                <th scope="col">{{ key }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for operator_formation in operators_formations %}
+            <tr>
+                {% for key in operator_formation.keys() %}
+                <td>{{operator_formation[key]}}</td>
+                {% endfor %}
+                <td>
+                    <button type="button" class="btn btn-sm btn-danger">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="primary-form-container">
+        <div class="form-container">
+            <div class="header-container">
+                <h2>Add Operator Formation Data</h2>
+            </div>
+            <form
+                id="addoperatorsformations"
+                action="operators-formations"
+                method="POST"
+            >
+                <div class="mb-2">
+                    <label for="company_id" class="form-label"
+                        >Company ID</label
+                    >
+                    <select class="form-select" name="company_id">
+                        {% for key in company_ids.keys() %} {% if key ==
+                        'company_ids' %} {% for id in company_ids[key] %}
+                        <option value="{{id}}">{{id}}</option>
+                        {% endfor %} {% endif %} {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label for="formation_id" class="form-label"
+                        >Formation ID</label
+                    >
+                    <select class="form-select" name="formation_id">
+                        {% for key in formation_ids.keys() %} {% if key ==
+                        'formation_ids' %} {% for id in formation_ids[key] %}
+                        <option value="{{id}}">{{id}}</option>
+                        {% endfor %} {% endif %} {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Submit Operator Formation Data
+                </button>
+            </form>
+        </div>
+        <div class="form-container">
+            <div class="header-container">
+                <h2>Update Operator Formation</h2>
+            </div>
+            <form>
+                <div class="mb-2">
+                    <label for="company_id" class="form-label"
+                        >Company ID</label
+                    >
+                    <select class="form-select" name="company_id">
+                        {% for key in company_ids.keys() %} {% if key ==
+                        'company_ids' %} {% for id in company_ids[key] %}
+                        <option value="{{id}}">{{id}}</option>
+                        {% endfor %} {% endif %} {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label for="formation_id" class="form-label"
+                        >Formation ID</label
+                    >
+                    <select class="form-select" name="formation_id">
+                        {% for key in formation_ids.keys() %} {% if key ==
+                        'formation_ids' %} {% for id in formation_ids[key] %}
+                        <option value="{{id}}">{{id}}</option>
+                        {% endfor %} {% endif %} {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Update Operator Formation Data
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

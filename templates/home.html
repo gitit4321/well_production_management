@@ -1,0 +1,170 @@
+{% extends 'index.html' %} {% block content %}
+<div class="container-fluid cards-container">
+    <div class="header-container index-header">
+        <h1>Well Production Management</h1>
+    </div>
+    <div class="overview-txt-container">
+        <p class="overview-txt">
+            Oil and gas is a multi-billion dollar industry with many competitors
+            across many basins across the US. The industry generates over $150
+            billion/year in revenue spread over 25 producing basins in the lower
+            48 states alone. With over 20,000 wells drilled in the US every
+            year, the Well Production Management system aims to allow users to
+            track oil production of wells drilled by companies across multiple
+            basins and various formations. Understanding the performance of
+            existing wells will allow for operators to make more informed
+            decisions regarding their development strategies. Our implementation
+            is meant to be a simplified model of how a database like this works.
+            In the real world these databases can store over 100,000 wells in a
+            single basin alone. What we will do is build a database that could
+            store 1000 wells over a handful of basins and formations to simulate
+            a relational database that tracks oil production of multiple
+            companies.
+        </p>
+    </div>
+    <div class="row">
+        <div class="card" style="width: 18rem">
+            <div class="card-body">
+                <div>
+                    <div class="card-title-container">
+                        <h5 class="card-title">Wells</h5>
+                    </div>
+                    <p class="card-text">
+                        Table containing the following Wells data:
+                    </p>
+                    <ul>
+                        <li>well_id</li>
+                        <li>company_id</li>
+                        <li>basin_id</li>
+                        <li>formation_id</li>
+                        <li>total_production_bbls</li>
+                        <li>1st_prod_date</li>
+                        <li>last_prod_date</li>
+                    </ul>
+                </div>
+                <div class="card-btn-container">
+                    <a href="/wells" class="btn btn-primary">Manage Wells</a>
+                </div>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem">
+            <div class="card-body">
+                <div>
+                    <div class="card-title-container">
+                        <h5 class="card-title">Companies</h5>
+                    </div>
+                    <p class="card-text">
+                        Table containing the following Companies data:
+                    </p>
+                    <ul>
+                        <li>company_id</li>
+                        <li>company_name</li>
+                        <li>total_wells</li>
+                        <li>total_production_bbls</li>
+                        <li>total_basins</li>
+                        <li>total_formations</li>
+                    </ul>
+                </div>
+                <div class="card-btn-container">
+                    <a href="/companies" class="btn btn-primary"
+                        >Manage Companies</a
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem">
+            <div class="card-body">
+                <div>
+                    <div class="card-title-container">
+                        <h5 class="card-title">Basins</h5>
+                    </div>
+                    <p class="card-text">
+                        Table containing the following Basins data:
+                    </p>
+                    <ul>
+                        <li>basin_id</li>
+                        <li>basin_name</li>
+                        <li>total_wells</li>
+                        <li>total_formations</li>
+                        <li>total_production_bbls</li>
+                    </ul>
+                </div>
+                <div class="card-btn-container">
+                    <a href="/basins" class="btn btn-primary">Manage Basins</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card" style="width: 18rem">
+            <div class="card-body">
+                <div>
+                    <div class="card-title-container">
+                        <h5 class="card-title">Formations</h5>
+                    </div>
+                    <p class="card-text">
+                        Table containing the following Basins data:
+                    </p>
+                    <ul>
+                        <li>formation_id</li>
+                        <li>formation_name</li>
+                        <li>basin_id</li>
+                        <li>total_wells</li>
+                        <li>total_production_bbls</li>
+                    </ul>
+                </div>
+                <div class="card-btn-container">
+                    <a href="/formations" class="btn btn-primary"
+                        >Manage Formations</a
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem">
+            <div class="card-body">
+                <div>
+                    <div class="card-title-container">
+                        <h5 class="card-title">Operators_Formations</h5>
+                    </div>
+                    <p class="card-text">
+                        Table containing the following Operators_Formations
+                        data:
+                    </p>
+                    <ul>
+                        <li>company_id</li>
+                        <li>formation_id</li>
+                    </ul>
+                </div>
+                <div class="card-btn-container">
+                    <a href="/operators-formations" class="btn btn-primary"
+                        >Manage Operators_Formations</a
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem">
+            <div class="card-body">
+                <div>
+                    <div class="card-title-container">
+                        <h5 class="card-title">Basins_Operators</h5>
+                    </div>
+                    <p class="card-text">
+                        Table containing the following Operators_Formations
+                        data:
+                    </p>
+                    <ul>
+                        <li>basin_id</li>
+                        <li>company_id</li>
+                    </ul>
+                </div>
+                <div class="card-btn-container">
+                    <a href="/basins-operators" class="btn btn-primary"
+                        >Manage Basins_Operators</a
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

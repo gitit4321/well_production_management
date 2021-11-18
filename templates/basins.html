@@ -1,0 +1,136 @@
+{% extends 'index.html' %} {% block content %}
+<div class="container-fluid">
+    <div class="header-container">
+        <h1>Basins</h1>
+    </div>
+    <p class="about-txt">View, add, update, and delete Basins</p>
+    <table class="table table-sm table-striped table-hover">
+        <thead>
+            <tr>
+                {% for key in basins[0].keys() %}
+                <th scope="col">{{ key }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for basin in basins %}
+            <tr>
+                {% for key in basin.keys() %}
+                <td>{{basin[key]}}</td>
+                {% endfor %}
+                <td>
+                    <button type="button" class="btn btn-sm btn-danger">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="primary-form-container">
+        <div class="form-container">
+            <div class="header-container">
+                <h2>Add Basin Data</h2>
+            </div>
+            <form id="addbasin" action="basins" method="POST">
+                <div class="mb-1">
+                    <label for="basin_name" class="form-label"
+                        >Basin Name</label
+                    >
+                    <input type="text" class="form-control" name="basin_name" />
+                </div>
+                <div class="mb-1">
+                    <label for="total_wells" class="form-label"
+                        >Total Wells</label
+                    >
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="total_wells"
+                    />
+                </div>
+                <div class="mb-1">
+                    <label for="total_formations" class="form-label"
+                        >Total Formations</label
+                    >
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="total_formations"
+                    />
+                </div>
+                <div class="mb-1">
+                    <label for="total_production_bbls" class="form-label"
+                        >Total Production Barrels</label
+                    >
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="total_production_bbls"
+                    />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Submit Basin Data
+                </button>
+            </form>
+        </div>
+        <div class="form-container">
+            <div class="header-container">
+                <h2>Update Basin Data</h2>
+            </div>
+            <form>
+                <div class="mb-1">
+                    <label for="basin_id" class="form-label">Basin ID</label>
+                    <select class="form-select" name="basin_id">
+                        {% for key in ids.keys() %} {% if key == 'basin_ids' %}
+                        {% for id in ids[key] %}
+                        <option value="{{id}}">{{id}}</option>
+                        {% endfor %} {% endif %} {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-1">
+                    <label for="basin_name" class="form-label"
+                        >Basin Name</label
+                    >
+                    <input type="text" class="form-control" name="basin_name" />
+                </div>
+                <div class="mb-1">
+                    <label for="total_wells" class="form-label"
+                        >Total Wells</label
+                    >
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="total_wells"
+                    />
+                </div>
+                <div class="mb-1">
+                    <label for="total_formations" class="form-label"
+                        >Total Formations</label
+                    >
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="total_formations"
+                    />
+                </div>
+                <div class="mb-1">
+                    <label for="total_production_bbls" class="form-label"
+                        >Total Production Barrels</label
+                    >
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="total_production_bbls"
+                    />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Update Basin Data
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

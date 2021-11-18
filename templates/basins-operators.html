@@ -1,0 +1,99 @@
+{% extends 'index.html' %} {% block content %}
+<div class="container-fluid">
+    <div class="header-container">
+        <h1>Basins_Operators</h1>
+    </div>
+    <p class="about-txt">View, add, update, and delete Basins_Operators</p>
+    <table class="table table-sm table-striped table-hover">
+        <thead>
+            <tr>
+                {% for key in basins_operators[0].keys() %}
+                <th scope="col">{{ key }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for basin_operator in basins_operators %}
+            <tr>
+                {% for key in basin_operator.keys() %}
+                <td>{{basin_operator[key]}}</td>
+                {% endfor %}
+                <td>
+                    <button type="button" class="btn btn-sm btn-danger">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="primary-form-container">
+        <div class="form-container">
+            <div class="header-container">
+                <h2>Add Basin Operator Data</h2>
+            </div>
+            <form
+                id="addbasinsoperators"
+                action="basins-operators"
+                method="POST"
+            >
+                <div class="mb-2">
+                    <label for="basin_id" class="form-label">Basin ID</label>
+                    <select class="form-select" name="basin_id">
+                        {% for key in basin_ids.keys() %} {% if key ==
+                        'basin_ids' %} {% for id in basin_ids[key] %}
+                        <option value="{{id}}">{{id}}</option>
+                        {% endfor %} {% endif %} {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label for="company_id" class="form-label"
+                        >Company ID</label
+                    >
+                    <select class="form-select" name="company_id">
+                        {% for key in company_ids.keys() %} {% if key ==
+                        'company_ids' %} {% for id in company_ids[key] %}
+                        <option value="{{id}}">{{id}}</option>
+                        {% endfor %} {% endif %} {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Submit Basin Operator Data
+                </button>
+            </form>
+        </div>
+        <div class="form-container">
+            <div class="header-container">
+                <h2>Update Basin Operator</h2>
+            </div>
+            <form>
+                <div class="mb-2">
+                    <label for="basin_id" class="form-label">Basin ID</label>
+                    <select class="form-select" name="basin_id">
+                        {% for key in basin_ids.keys() %} {% if key ==
+                        'basin_ids' %} {% for id in basin_ids[key] %}
+                        <option value="{{id}}">{{id}}</option>
+                        {% endfor %} {% endif %} {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label for="company_id" class="form-label"
+                        >Company ID</label
+                    >
+                    <select class="form-select" name="company_id">
+                        {% for key in company_ids.keys() %} {% if key ==
+                        'company_ids' %} {% for id in company_ids[key] %}
+                        <option value="{{id}}">{{id}}</option>
+                        {% endfor %} {% endif %} {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Update Basin Operator Data
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

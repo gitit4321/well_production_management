@@ -1,0 +1,144 @@
+{% extends 'index.html' %} {% block content %}
+<div class="container-fluid">
+    <div class="header-container">
+        <h1>Formations</h1>
+    </div>
+    <p class="about-txt">View, add, update, and delete Formations</p>
+    <table class="table table-sm table-striped table-hover">
+        <thead>
+            <tr>
+                {% for key in formations[0].keys() %}
+                <th scope="col">{{ key }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for formation in formations %}
+            <tr>
+                {% for key in formation.keys() %}
+                <td>{{formation[key]}}</td>
+                {% endfor %}
+                <td>
+                    <button type="button" class="btn btn-sm btn-danger">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="primary-form-container">
+        <div class="form-container">
+            <div class="header-container">
+                <h2>Add Formation Data</h2>
+            </div>
+            <form id="addformation" action="formations" method="POST">
+                <div class="mb-1">
+                    <label for="formation_name" class="form-label"
+                        >Formation Name</label
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="formation_name"
+                    />
+                </div>
+                <div class="mb-1">
+                    <label for="basin_id" class="form-label">Basin ID</label>
+                    <select class="form-select" name="basin_id">
+                        {% for key in basin_ids.keys() %} {% if key ==
+                        'basin_ids' %} {% for id in basin_ids[key] %}
+                        <option value="{{id}}">{{id}}</option>
+                        {% endfor %} {% endif %} {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-1">
+                    <label for="total_wells" class="form-label"
+                        >Total Wells</label
+                    >
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="total_wells"
+                    />
+                </div>
+                <div class="mb-1">
+                    <label for="total_production_bbls" class="form-label"
+                        >Total Production Barrels</label
+                    >
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="total_production_bbls"
+                    />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Submit Formation Data
+                </button>
+            </form>
+        </div>
+        <div class="form-container">
+            <div class="header-container">
+                <h2>Update Formation</h2>
+            </div>
+            <form>
+                <div class="mb-1">
+                    <label for="formation_id" class="form-label"
+                        >Formation ID</label
+                    >
+                    <select class="form-select" name="formation_id">
+                        {% for key in formation_ids.keys() %} {% if key ==
+                        'formation_ids' %} {% for id in formation_ids[key] %}
+                        <option value="{{id}}">{{id}}</option>
+                        {% endfor %} {% endif %} {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-1">
+                    <label for="formation_name" class="form-label"
+                        >Formation Name</label
+                    >
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="formation_name"
+                    />
+                </div>
+                <div class="mb-1">
+                    <label for="basin_id" class="form-label">Basin ID</label>
+                    <select class="form-select" name="basin_id">
+                        {% for key in basin_ids.keys() %} {% if key ==
+                        'basin_ids' %} {% for id in basin_ids[key] %}
+                        <option value="{{id}}">{{id}}</option>
+                        {% endfor %} {% endif %} {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-1">
+                    <label for="total_wells" class="form-label"
+                        >Total Wells</label
+                    >
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="total_wells"
+                    />
+                </div>
+                <div class="mb-1">
+                    <label for="total_production_bbls" class="form-label"
+                        >Total Production Barrels</label
+                    >
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="total_production_bbls"
+                    />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Update Formation Data
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
