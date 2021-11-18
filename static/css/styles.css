@@ -94,3 +94,7 @@ body {
 form {
     margin-bottom: 26px;
 }
+
+.search-btn {
+    margin-top: 5px;
+}
