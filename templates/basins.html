@@ -19,9 +19,21 @@
                 <td>{{basin[key]}}</td>
                 {% endfor %}
                 <td>
-                    <button type="button" class="btn btn-sm btn-danger">
-                        Delete
-                    </button>
+                    <form
+                        id="deletebasin"
+                        class="del-form"
+                        action="basins"
+                        method="POST"
+                    >
+                        <input
+                            type="hidden"
+                            name="deletebasin"
+                            value="{{ basin['basin_id'] }}"
+                        />
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Delete
+                        </button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
@@ -70,6 +82,7 @@
                         name="total_production_bbls"
                     />
                 </div>
+                <input type="hidden" name="addbasin" />
                 <button type="submit" class="btn btn-primary">
                     Submit Basin Data
                 </button>
@@ -79,7 +92,7 @@
             <div class="header-container">
                 <h2>Update Basin Data</h2>
             </div>
-            <form>
+            <form id="updatebasins" action="basins" method="POST">
                 <div class="mb-1">
                     <label for="basin_id" class="form-label">Basin ID</label>
                     <select class="form-select" name="basin_id">
@@ -125,6 +138,7 @@
                         name="total_production_bbls"
                     />
                 </div>
+                <input type="hidden" name="updatebasin" />
                 <button type="submit" class="btn btn-primary">
                     Update Basin Data
                 </button>

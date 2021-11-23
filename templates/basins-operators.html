@@ -19,9 +19,21 @@
                 <td>{{basin_operator[key]}}</td>
                 {% endfor %}
                 <td>
-                    <button type="button" class="btn btn-sm btn-danger">
-                        Delete
-                    </button>
+                    <form
+                        id="deletebasinoperator"
+                        class="del-form"
+                        action="basins-operators"
+                        method="POST"
+                    >
+                        <input
+                            type="hidden"
+                            name="deletebasinoperator"
+                            value="{{ basin_operator['basin_id'], basin_operator['company_id'] }}"
+                        />
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Delete
+                        </button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
@@ -58,6 +70,7 @@
                         {% endfor %} {% endif %} {% endfor %}
                     </select>
                 </div>
+                <input type="hidden" name="addbasinsoperators" />
                 <button type="submit" class="btn btn-primary">
                     Submit Basin Operator Data
                 </button>
@@ -67,7 +80,11 @@
             <div class="header-container">
                 <h2>Update Basin Operator</h2>
             </div>
-            <form>
+            <form
+                id="updatebasinsoperators"
+                action="basins-operators"
+                method="POST"
+            >
                 <div class="mb-2">
                     <label for="basin_id" class="form-label">Basin ID</label>
                     <select class="form-select" name="basin_id">
@@ -88,6 +105,7 @@
                         {% endfor %} {% endif %} {% endfor %}
                     </select>
                 </div>
+                <input type="hidden" name="updatebasinsoperators" />
                 <button type="submit" class="btn btn-primary">
                     Update Basin Operator Data
                 </button>

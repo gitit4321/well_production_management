@@ -43,17 +43,12 @@
     <div class="primary-form-container">
         <div class="form-container">
             <div class="header-container">
-                <h2>Search for Wells by company_id</h2>
+                <h2>Show all Wells</h2>
             </div>
-            <form id="searchwell" action="/search-wells" method="POST">
-                <select class="form-select" name="company_id">
-                    {% for key in ids.keys() %} {% if key == 'company_ids' %} {%
-                    for id in ids[key] %}
-                    <option value="{{id}}">{{id}}</option>
-                    {% endfor %} {% endif %} {% endfor %}
-                </select>
+            <form id="allwells" action="/wells" method="POST">
+                <input type="hidden" name="showallwells" />
                 <button type="submit" class="btn btn-primary search-btn">
-                    Search for Well
+                    Show all Wells
                 </button>
             </form>
             <div class="header-container">

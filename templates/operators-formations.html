@@ -19,9 +19,21 @@
                 <td>{{operator_formation[key]}}</td>
                 {% endfor %}
                 <td>
-                    <button type="button" class="btn btn-sm btn-danger">
-                        Delete
-                    </button>
+                    <form
+                        id="deleteoperatorformation"
+                        class="del-form"
+                        action="operators-formations"
+                        method="POST"
+                    >
+                        <input
+                            type="hidden"
+                            name="deleteoperatorformation"
+                            value="{{ operator_formation['company_id'], operator_formation['formation_id'] }}"
+                        />
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Delete
+                        </button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
@@ -60,6 +72,7 @@
                         {% endfor %} {% endif %} {% endfor %}
                     </select>
                 </div>
+                <input type="hidden" name="addoperatorsformations" />
                 <button type="submit" class="btn btn-primary">
                     Submit Operator Formation Data
                 </button>
@@ -69,7 +82,11 @@
             <div class="header-container">
                 <h2>Update Operator Formation</h2>
             </div>
-            <form>
+            <form
+                id="updateoperatorsformations"
+                action="operators-formations"
+                method="POST"
+            >
                 <div class="mb-2">
                     <label for="company_id" class="form-label"
                         >Company ID</label
@@ -92,6 +109,7 @@
                         {% endfor %} {% endif %} {% endfor %}
                     </select>
                 </div>
+                <input type="hidden" name="updateoperatorsformations" />
                 <button type="submit" class="btn btn-primary">
                     Update Operator Formation Data
                 </button>

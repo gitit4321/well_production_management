@@ -19,9 +19,21 @@
                 <td>{{company[key]}}</td>
                 {% endfor %}
                 <td>
-                    <button type="button" class="btn btn-sm btn-danger">
-                        Delete
-                    </button>
+                    <form
+                        id="deletecompany"
+                        class="del-form"
+                        action="companies"
+                        method="POST"
+                    >
+                        <input
+                            type="hidden"
+                            name="deletecompany"
+                            value="{{ company['company_id'] }}"
+                        />
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Delete
+                        </button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
@@ -84,6 +96,7 @@
                         name="total_formations"
                     />
                 </div>
+                <input type="hidden" name="addcompany" />
                 <button type="submit" class="btn btn-primary">
                     Submit Well Data
                 </button>
@@ -93,7 +106,7 @@
             <div class="header-container">
                 <h2>Update Company Data</h2>
             </div>
-            <form>
+            <form id="updatecompanies" action="/companies" method="POST">
                 <div class="mb-1">
                     <label for="company_id" class="form-label"
                         >Company ID</label
@@ -106,50 +119,56 @@
                     </select>
                 </div>
                 <div class="mb-1">
-                    <label for="company_id" class="form-label"
+                    <label for="company_name" class="form-label"
                         >Company Name</label
                     >
                     <input
-                        type="number"
+                        type="text"
                         class="form-control"
-                        id="company_name"
+                        name="company_name"
                     />
                 </div>
                 <div class="mb-1">
-                    <label for="basin_id" class="form-label">Total Wells</label>
+                    <label for="total_wells" class="form-label"
+                        >Total Wells</label
+                    >
                     <input
                         type="number"
                         class="form-control"
-                        id="total_wells"
+                        name="total_wells"
                     />
                 </div>
                 <div class="mb-1">
-                    <label for="formation_id" class="form-label"
+                    <label for="total_production_bbls" class="form-label"
                         >Total Production Barrels</label
                     >
-                    <input type="number" class="form-control"
-                    id="total_production_bbls />
+                    <input
+                        type="number"
+                        class="form-control"
+                        name="total_production_bbls"
+                    />
                 </div>
                 <div class="mb-1">
-                    <label for="total_production_bbls" class="form-label"
+                    <label for="total_basins" class="form-label"
                         >Total Basins</label
                     >
                     <input
                         type="number"
                         class="form-control"
-                        id="total_basins"
+                        name="total_basins"
                     />
                 </div>
                 <div class="mb-1">
-                    <label for="1st_prod_date" class="form-label"
+                    <label for="total_formations" class="form-label"
                         >Total Formations</label
                     >
                     <input
                         type="number"
                         class="form-control"
-                        id="total_formations"
+                        name="total_formations"
                     />
                 </div>
+                <input type="hidden" name="updatecompany" />
                 <button type="submit" class="btn btn-primary">
                     Update Well Data
                 </button>

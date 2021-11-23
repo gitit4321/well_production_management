@@ -19,9 +19,21 @@
                 <td>{{formation[key]}}</td>
                 {% endfor %}
                 <td>
-                    <button type="button" class="btn btn-sm btn-danger">
-                        Delete
-                    </button>
+                    <form
+                        id="deleteformation"
+                        class="del-form"
+                        action="formations"
+                        method="POST"
+                    >
+                        <input
+                            type="hidden"
+                            name="deleteformation"
+                            value="{{ formation['formation_id'] }}"
+                        />
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Delete
+                        </button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
@@ -73,6 +85,7 @@
                         name="total_production_bbls"
                     />
                 </div>
+                <input type="hidden" name="addformation" />
                 <button type="submit" class="btn btn-primary">
                     Submit Formation Data
                 </button>
@@ -82,7 +95,7 @@
             <div class="header-container">
                 <h2>Update Formation</h2>
             </div>
-            <form>
+            <form id="updateformation" action="formations" method="POST">
                 <div class="mb-1">
                     <label for="formation_id" class="form-label"
                         >Formation ID</label
@@ -133,6 +146,7 @@
                         name="total_production_bbls"
                     />
                 </div>
+                <input type="hidden" name="updateformation" />
                 <button type="submit" class="btn btn-primary">
                     Update Formation Data
                 </button>
