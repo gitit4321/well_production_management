@@ -7,16 +7,16 @@
     <table class="table table-sm table-striped table-hover">
         <thead>
             <tr>
-                {% for key in operators_formations[0].keys() %}
-                <th scope="col">{{ key }}</th>
+                {% for column_title in table_data[0].keys() %}
+                <th scope="col">{{ column_title }}</th>
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for operator_formation in operators_formations %}
+            {% for operator_formation in table_data %}
             <tr>
-                {% for key in operator_formation.keys() %}
-                <td>{{operator_formation[key]}}</td>
+                {% for attribute in operator_formation.keys() %}
+                <td>{{operator_formation[attribute]}}</td>
                 {% endfor %}
                 <td>
                     <form
@@ -40,6 +40,15 @@
         </tbody>
     </table>
 
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <ul class="flashes">
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}}" role="alert">{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
+
     <div class="primary-form-container">
         <div class="form-container">
             <div class="header-container">
@@ -55,10 +64,11 @@
                         >Company ID</label
                     >
                     <select class="form-select" name="company_id">
-                        {% for key in company_ids.keys() %} {% if key ==
-                        'company_ids' %} {% for id in company_ids[key] %}
-                        <option value="{{id}}">{{id}}</option>
-                        {% endfor %} {% endif %} {% endfor %}
+                        {% for row in company_data %}
+                        <option value="{{row[0]}}">
+                            {{ row[0] }} ({{ row[1] }})
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="mb-2">
@@ -66,10 +76,11 @@
                         >Formation ID</label
                     >
                     <select class="form-select" name="formation_id">
-                        {% for key in formation_ids.keys() %} {% if key ==
-                        'formation_ids' %} {% for id in formation_ids[key] %}
-                        <option value="{{id}}">{{id}}</option>
-                        {% endfor %} {% endif %} {% endfor %}
+                        {% for row in formation_data %}
+                        <option value="{{row[0]}}">
+                            {{ row[0] }} ({{ row[1] }})
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
                 <input type="hidden" name="addoperatorsformations" />
@@ -92,10 +103,11 @@
                         >Company ID</label
                     >
                     <select class="form-select" name="company_id">
-                        {% for key in company_ids.keys() %} {% if key ==
-                        'company_ids' %} {% for id in company_ids[key] %}
-                        <option value="{{id}}">{{id}}</option>
-                        {% endfor %} {% endif %} {% endfor %}
+                        {% for row in company_data %}
+                        <option value="{{row[0]}}">
+                            {{ row[0] }} ({{ row[1] }})
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="mb-2">
@@ -103,10 +115,11 @@
                         >Formation ID</label
                     >
                     <select class="form-select" name="formation_id">
-                        {% for key in formation_ids.keys() %} {% if key ==
-                        'formation_ids' %} {% for id in formation_ids[key] %}
-                        <option value="{{id}}">{{id}}</option>
-                        {% endfor %} {% endif %} {% endfor %}
+                        {% for row in formation_data %}
+                        <option value="{{row[0]}}">
+                            {{ row[0] }} ({{ row[1] }})
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
                 <input type="hidden" name="updateoperatorsformations" />

@@ -7,16 +7,16 @@
     <table class="table table-sm table-striped table-hover">
         <thead>
             <tr>
-                {% for key in wells[0].keys() %}
-                <th scope="col">{{ key }}</th>
+                {% for column_title in table_data[0].keys() %}
+                <th scope="col">{{ column_title }}</th>
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for well in wells %}
+            {% for well in table_data %}
             <tr>
-                {% for key in well.keys() %}
-                <td>{{well[key]}}</td>
+                {% for attribute in well.keys() %}
+                <td>{{well[attribute]}}</td>
                 {% endfor %}
                 <td>
                     <form
@@ -40,6 +40,15 @@
         </tbody>
     </table>
 
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <ul class="flashes">
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}}" role="alert">{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
+
     <div class="primary-form-container">
         <div class="form-container">
             <div class="header-container">
@@ -47,10 +56,11 @@
             </div>
             <form id="searchwell" action="/search-wells" method="POST">
                 <select class="form-select" name="company_id">
-                    {% for key in ids.keys() %} {% if key == 'company_ids' %} {%
-                    for id in ids[key] %}
-                    <option value="{{id}}">{{id}}</option>
-                    {% endfor %} {% endif %} {% endfor %}
+                    {% for row in company_data %}
+                    <option value="{{row[0]}}">
+                        {{ row[0] }} ({{ row[1] }})
+                    </option>
+                    {% endfor %}
                 </select>
                 <button type="submit" class="btn btn-primary search-btn">
                     Search for Well
@@ -65,19 +75,21 @@
                         >Company ID</label
                     >
                     <select class="form-select" name="company_id">
-                        {% for key in ids.keys() %} {% if key == 'company_ids'
-                        %} {% for id in ids[key] %}
-                        <option value="{{id}}">{{id}}</option>
-                        {% endfor %} {% endif %} {% endfor %}
+                        {% for row in company_data %}
+                        <option value="{{row[0]}}">
+                            {{ row[0] }} ({{ row[1] }})
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="mb-1">
                     <label for="basin_id" class="form-label">Basin ID</label>
                     <select class="form-select" name="basin_id">
-                        {% for key in ids.keys() %} {% if key == 'basin_ids' %}
-                        {% for id in ids[key] %}
-                        <option value="{{id}}">{{id}}</option>
-                        {% endfor %} {% endif %} {% endfor %}
+                        {% for row in basin_data %}
+                        <option value="{{row[0]}}">
+                            {{ row[0] }} ({{ row[1] }})
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="mb-1">
@@ -85,10 +97,11 @@
                         >Formation ID</label
                     >
                     <select class="form-select" name="formation_id">
-                        {% for key in ids.keys() %} {% if key == 'formation_ids'
-                        %} {% for id in ids[key] %}
-                        <option value="{{id}}">{{id}}</option>
-                        {% endfor %} {% endif %} {% endfor %}
+                        {% for row in formation_data %}
+                        <option value="{{row[0]}}">
+                            {{ row[0] }} ({{ row[1] }})
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="mb-1">
@@ -135,10 +148,9 @@
                 <div class="mb-1">
                     <label for="well_id" class="form-label">Well ID</label>
                     <select class="form-select" name="well_id">
-                        {% for key in ids.keys() %} {% if key == 'well_ids' %}
-                        {% for id in ids[key] %}
-                        <option value="{{id}}">{{id}}</option>
-                        {% endfor %} {% endif %} {% endfor %}
+                        {% for row in well_data %}
+                        <option value="{{row[0]}}">{{ row[0] }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="mb-1">
@@ -146,19 +158,21 @@
                         >Company ID</label
                     >
                     <select class="form-select" name="company_id">
-                        {% for key in ids.keys() %} {% if key == 'company_ids'
-                        %} {% for id in ids[key] %}
-                        <option value="{{id}}">{{id}}</option>
-                        {% endfor %} {% endif %} {% endfor %}
+                        {% for row in company_data %}
+                        <option value="{{row[0]}}">
+                            {{ row[0] }} ({{ row[1] }})
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="mb-1">
                     <label for="basin_id" class="form-label">Basin ID</label>
                     <select class="form-select" name="basin_id">
-                        {% for key in ids.keys() %} {% if key == 'basin_ids' %}
-                        {% for id in ids[key] %}
-                        <option value="{{id}}">{{id}}</option>
-                        {% endfor %} {% endif %} {% endfor %}
+                        {% for row in basin_data %}
+                        <option value="{{row[0]}}">
+                            {{ row[0] }} ({{ row[1] }})
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="mb-1">
@@ -166,10 +180,11 @@
                         >Formation ID</label
                     >
                     <select class="form-select" name="formation_id">
-                        {% for key in ids.keys() %} {% if key == 'formation_ids'
-                        %} {% for id in ids[key] %}
-                        <option value="{{id}}">{{id}}</option>
-                        {% endfor %} {% endif %} {% endfor %}
+                        {% for row in formation_data %}
+                        <option value="{{row[0]}}">
+                            {{ row[0] }} ({{ row[1] }})
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="mb-1">

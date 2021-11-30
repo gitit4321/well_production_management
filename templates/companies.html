@@ -7,16 +7,16 @@
     <table class="table table-sm table-striped table-hover">
         <thead>
             <tr>
-                {% for key in companies[0].keys() %}
-                <th scope="col">{{ key }}</th>
+                {% for column_title in table_data[0].keys() %}
+                <th scope="col">{{ column_title }}</th>
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for company in companies %}
+            {% for company in table_data %}
             <tr>
-                {% for key in company.keys() %}
-                <td>{{company[key]}}</td>
+                {% for attribute in company.keys() %}
+                <td>{{company[attribute]}}</td>
                 {% endfor %}
                 <td>
                     <form
@@ -39,6 +39,15 @@
             {% endfor %}
         </tbody>
     </table>
+
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <ul class="flashes">
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}}" role="alert">{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
 
     <div class="primary-form-container">
         <div class="form-container">
@@ -112,10 +121,11 @@
                         >Company ID</label
                     >
                     <select class="form-select" name="company_id">
-                        {% for key in ids.keys() %} {% if key == 'company_ids'
-                        %} {% for id in ids[key] %}
-                        <option value="{{id}}">{{id}}</option>
-                        {% endfor %} {% endif %} {% endfor %}
+                        {% for row in company_data %}
+                        <option value="{{row[0]}}">
+                            {{ row[0] }} ({{ row[1] }})
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="mb-1">
