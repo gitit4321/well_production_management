@@ -3,7 +3,7 @@
     <div class="header-container">
         <h1>Operators_Formations</h1>
     </div>
-    <p class="about-txt">View, add, update, and delete Operators_Formations</p>
+    <p class="about-txt">View Operators_Formations relationship table</p>
     <table class="table table-sm table-striped table-hover">
         <thead>
             <tr>
@@ -18,117 +18,10 @@
                 {% for attribute in operator_formation.keys() %}
                 <td>{{operator_formation[attribute]}}</td>
                 {% endfor %}
-                <td>
-                    <form
-                        id="deleteoperatorformation"
-                        class="del-form"
-                        action="operators-formations"
-                        method="POST"
-                    >
-                        <input
-                            type="hidden"
-                            name="deleteoperatorformation"
-                            value="{{ operator_formation['company_id'], operator_formation['formation_id'] }}"
-                        />
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            Delete
-                        </button>
-                    </form>
-                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-
-    {% with messages = get_flashed_messages(with_categories=true) %} {% if
-    messages %}
-    <ul class="flashes">
-        {% for category, message in messages %}
-        <div class="alert alert-{{category}}" role="alert">{{ message }}</div>
-        {% endfor %}
-    </ul>
-    {% endif %} {% endwith %}
-
-    <div class="primary-form-container">
-        <div class="form-container">
-            <div class="header-container">
-                <h2>Add Operator Formation Data</h2>
-            </div>
-            <form
-                id="addoperatorsformations"
-                action="operators-formations"
-                method="POST"
-            >
-                <div class="mb-2">
-                    <label for="company_id" class="form-label"
-                        >Company ID</label
-                    >
-                    <select class="form-select" name="company_id">
-                        {% for row in company_data %}
-                        <option value="{{row[0]}}">
-                            {{ row[0] }} ({{ row[1] }})
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="mb-2">
-                    <label for="formation_id" class="form-label"
-                        >Formation ID</label
-                    >
-                    <select class="form-select" name="formation_id">
-                        {% for row in formation_data %}
-                        <option value="{{row[0]}}">
-                            {{ row[0] }} ({{ row[1] }})
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <input type="hidden" name="addoperatorsformations" />
-                <button type="submit" class="btn btn-primary">
-                    Submit Operator Formation Data
-                </button>
-            </form>
-        </div>
-        <div class="form-container">
-            <div class="header-container">
-                <h2>Update Operator Formation</h2>
-            </div>
-            <form
-                id="updateoperatorsformations"
-                action="operators-formations"
-                method="POST"
-            >
-                <div class="mb-2">
-                    <label for="company_id" class="form-label"
-                        >Company ID</label
-                    >
-                    <select class="form-select" name="company_id">
-                        {% for row in company_data %}
-                        <option value="{{row[0]}}">
-                            {{ row[0] }} ({{ row[1] }})
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="mb-2">
-                    <label for="formation_id" class="form-label"
-                        >Formation ID</label
-                    >
-                    <select class="form-select" name="formation_id">
-                        {% for row in formation_data %}
-                        <option value="{{row[0]}}">
-                            {{ row[0] }} ({{ row[1] }})
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <input type="hidden" name="updateoperatorsformations" />
-                <button type="submit" class="btn btn-primary">
-                    Update Operator Formation Data
-                </button>
-            </form>
-        </div>
-    </div>
 </div>
 
 {% endblock content %}

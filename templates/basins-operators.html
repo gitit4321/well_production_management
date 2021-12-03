@@ -3,7 +3,7 @@
     <div class="header-container">
         <h1>Basins_Operators</h1>
     </div>
-    <p class="about-txt">View, add, update, and delete Basins_Operators</p>
+    <p class="about-txt">View Basins_Operators relationship table</p>
     <table class="table table-sm table-striped table-hover">
         <thead>
             <tr>
@@ -18,113 +18,10 @@
                 {% for attribute in basin_operator.keys() %}
                 <td>{{basin_operator[attribute]}}</td>
                 {% endfor %}
-                <td>
-                    <form
-                        id="deletebasinoperator"
-                        class="del-form"
-                        action="basins-operators"
-                        method="POST"
-                    >
-                        <input
-                            type="hidden"
-                            name="deletebasinoperator"
-                            value="{{ basin_operator['basin_id'], basin_operator['company_id'] }}"
-                        />
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            Delete
-                        </button>
-                    </form>
-                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-
-    {% with messages = get_flashed_messages(with_categories=true) %} {% if
-    messages %}
-    <ul class="flashes">
-        {% for category, message in messages %}
-        <div class="alert alert-{{category}}" role="alert">{{ message }}</div>
-        {% endfor %}
-    </ul>
-    {% endif %} {% endwith %}
-
-    <div class="primary-form-container">
-        <div class="form-container">
-            <div class="header-container">
-                <h2>Add Basin Operator Data</h2>
-            </div>
-            <form
-                id="addbasinsoperators"
-                action="basins-operators"
-                method="POST"
-            >
-                <div class="mb-2">
-                    <label for="basin_id" class="form-label">Basin ID</label>
-                    <select class="form-select" name="basin_id">
-                        {% for row in basin_data %}
-                        <option value="{{row[0]}}">
-                            {{ row[0] }} ({{ row[1] }})
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="mb-2">
-                    <label for="company_id" class="form-label"
-                        >Company ID</label
-                    >
-                    <select class="form-select" name="company_id">
-                        {% for row in company_data %}
-                        <option value="{{row[0]}}">
-                            {{ row[0] }} ({{ row[1] }})
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <input type="hidden" name="addbasinsoperators" />
-                <button type="submit" class="btn btn-primary">
-                    Submit Basin Operator Data
-                </button>
-            </form>
-        </div>
-        <div class="form-container">
-            <div class="header-container">
-                <h2>Update Basin Operator</h2>
-            </div>
-            <form
-                id="updatebasinsoperators"
-                action="basins-operators"
-                method="POST"
-            >
-                <div class="mb-2">
-                    <label for="basin_id" class="form-label">Basin ID</label>
-                    <select class="form-select" name="basin_id">
-                        {% for row in basin_data %}
-                        <option value="{{row[0]}}">
-                            {{ row[0] }} ({{ row[1] }})
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="mb-2">
-                    <label for="company_id" class="form-label"
-                        >Company ID</label
-                    >
-                    <select class="form-select" name="company_id">
-                        {% for row in company_data %}
-                        <option value="{{row[0]}}">
-                            {{ row[0] }} ({{ row[1] }})
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <input type="hidden" name="updatebasinsoperators" />
-                <button type="submit" class="btn btn-primary">
-                    Update Basin Operator Data
-                </button>
-            </form>
-        </div>
-    </div>
 </div>
 
 {% endblock content %}

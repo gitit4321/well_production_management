@@ -5,12 +5,30 @@ db_connection = db.connect_to_database()
 
 def get_table_data(table):
     '''
-    Returns all data from thee given table name. This is in the form of a tuple containing dictionaries.
+    Returns all data from the given table name. This is in the form of a tuple containing dictionaries.
     Each dictionary corresponds to a row in the given table where each key:value pair is the column title:value for that row.
     The returned tuple of dictionaries are sorted by the given tables primary key.
     '''
     table_id = get_table_id(table)
     query = f"SELECT * FROM {table} ORDER BY {table_id};"
+    cursor = db.execute_query(db_connection, query)
+    db_results = cursor.fetchall()
+
+    return db_results
+
+
+def get_relationship_table_data(table):
+    '''
+    Returns all data from thee given relationship table name. This is in the form of a tuple containing dictionaries.
+    Each dictionary corresponds to a row in the given table where each key:value pair is the column title:value for that row.
+    The returned tuple of dictionaries are first sorted by the given tables 'table_id' followed by the 'secondary_table_id'.
+    '''
+    table_id = get_table_id(table)
+    if table == 'Basins_Operators':
+        secondary_table_id = 'company_id'
+    elif table == 'Operators_Formations':
+        secondary_table_id = 'formation_id'
+    query = f"SELECT * FROM {table} ORDER BY {table_id}, {secondary_table_id};"
     cursor = db.execute_query(db_connection, query)
     db_results = cursor.fetchall()
 

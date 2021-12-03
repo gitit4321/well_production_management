@@ -2,7 +2,7 @@ from flask import Flask, flash, redirect, render_template, request, url_for
 import os
 from dotenv import load_dotenv, find_dotenv
 import database.db_connector as db
-from db_helpers import get_table_data, get_well_ids, get_company_ids_and_names, get_basin_ids_and_names, get_formation_ids_and_names
+from db_helpers import get_table_data, get_relationship_table_data, get_well_ids, get_company_ids_and_names, get_basin_ids_and_names, get_formation_ids_and_names
 
 load_dotenv(find_dotenv())
 
@@ -139,14 +139,9 @@ def companies():
         # INSERT row data into Companies table
         if 'addcompany' in request.form:
             company_name = request.form['company_name']
-            total_wells = request.form['total_wells']
-            total_production_bbls = request.form['total_production_bbls']
-            total_basins = request.form['total_basins']
-            total_formations = request.form['total_formations']
 
-            query = 'INSERT INTO Companies (company_name, total_wells, total_production_bbls, total_basins, total_formations) VALUES (%s, %s, %s, %s, %s);'
-
-            data = (company_name, total_wells, total_production_bbls, total_basins, total_formations)
+            query = 'INSERT INTO Companies (company_name) VALUES (%s);'
+            data = (company_name,)
             db.execute_query(db_connection, query, data)
 
             # set relevant flash message
@@ -156,29 +151,24 @@ def companies():
         elif 'updatecompany' in request.form:
             company_id = request.form['company_id']
             company_name = request.form['company_name']
-            total_wells = request.form['total_wells']
-            total_production_bbls = request.form['total_production_bbls']
-            total_basins = request.form['total_basins']
-            total_formations = request.form['total_formations']
 
-            query = 'UPDATE Companies SET company_name = %s, total_wells = %s, total_production_bbls = %s, total_basins = %s, total_formations = %s WHERE company_id = %s;'
-
-            data = (company_name, total_wells, total_production_bbls, total_basins, total_formations, company_id)
+            query = 'UPDATE Companies SET company_name = %s WHERE company_id = %s;'
+            data = (company_name, company_id)
             db.execute_query(db_connection, query, data)
 
             # set relevant flash message
             flash_message = flash_messages['updated']
 
-        # DELETE row data in Companies table
-        elif 'deletecompany' in request.form:
-            company_id = request.form['deletecompany']
+        # # DELETE row data in Companies table
+        # elif 'deletecompany' in request.form:
+        #     company_id = request.form['deletecompany']
 
-            query = 'DELETE FROM Companies WHERE company_id = %s'
-            data = (company_id,)
-            db.execute_query(db_connection, query, data)
+        #     query = 'DELETE FROM Companies WHERE company_id = %s'
+        #     data = (company_id,)
+        #     db.execute_query(db_connection, query, data)
 
-            # set relevant flash message
-            flash_message = flash_messages['deleted']
+        #     # set relevant flash message
+        #     flash_message = flash_messages['deleted']
 
         flash(flash_message, 'success')
         return redirect(url_for('companies'))
@@ -214,13 +204,9 @@ def basins():
         # INSERT row data into Basins table
         if 'addbasin' in request.form:
             basin_name = request.form['basin_name']
-            total_wells = request.form['total_wells']
-            total_formations = request.form['total_formations']
-            total_production_bbls = request.form['total_production_bbls']
 
-            query = f'INSERT INTO Basins (basin_name, total_wells, total_formations, total_production_bbls) VALUES (%s, %s, %s, %s);'
-
-            data = (basin_name, total_wells, total_formations, total_production_bbls)
+            query = f'INSERT INTO Basins (basin_name) VALUES (%s);'
+            data = (basin_name,)
             db.execute_query(db_connection, query, data)
 
             # set relevant flash message
@@ -230,28 +216,24 @@ def basins():
         elif 'updatebasin' in request.form:
             basin_id = request.form['basin_id']
             basin_name = request.form['basin_name']
-            total_wells = request.form['total_wells']
-            total_formations = request.form['total_formations']
-            total_production_bbls = request.form['total_production_bbls']
 
-            query = 'UPDATE Basins SET basin_name = %s, total_wells = %s, total_formations = %s, total_production_bbls = %s WHERE basin_id = %s;'
-
-            data = (basin_name, total_wells, total_formations, total_production_bbls, basin_id)
+            query = 'UPDATE Basins SET basin_name = %s WHERE basin_id = %s;'
+            data = (basin_name, basin_id)
             db.execute_query(db_connection, query, data)
 
             # set relevant flash message
             flash_message = flash_messages['updated']
 
-        # DELETE row data in Basin table
-        elif 'deletebasin' in request.form:
-            basin_id = request.form['deletebasin']
+        # # DELETE row data in Basin table
+        # elif 'deletebasin' in request.form:
+        #     basin_id = request.form['deletebasin']
 
-            query = 'DELETE FROM Basins WHERE basin_id = %s'
-            data = (basin_id,)
-            db.execute_query(db_connection, query, data)
+        #     query = 'DELETE FROM Basins WHERE basin_id = %s'
+        #     data = (basin_id,)
+        #     db.execute_query(db_connection, query, data)
 
-            # set relevant flash message
-            flash_message = flash_messages['deleted']
+        #     # set relevant flash message
+        #     flash_message = flash_messages['deleted']
 
         flash(flash_message, 'success')
         return redirect(url_for('basins'))
@@ -289,12 +271,9 @@ def formations():
         if 'addformation' in request.form:
             formation_name = request.form['formation_name']
             basin_id = request.form['basin_id']
-            total_wells = request.form['total_wells']
-            total_production_bbls = request.form['total_production_bbls']
 
-            query = f'INSERT INTO Formations (formation_name, basin_id, total_wells, total_production_bbls) VALUES (%s, %s, %s, %s);'
-
-            data = (formation_name, basin_id, total_wells, total_production_bbls)
+            query = f'INSERT INTO Formations (formation_name, basin_id) VALUES (%s, %s);'
+            data = (formation_name, basin_id)
             db.execute_query(db_connection, query, data)
 
             # set relevant flash message
@@ -305,27 +284,24 @@ def formations():
             formation_id = request.form['formation_id']
             formation_name = request.form['formation_name']
             basin_id = request.form['basin_id']
-            total_wells = request.form['total_wells']
-            total_production_bbls = request.form['total_production_bbls']
 
-            query = 'UPDATE Formations SET formation_name = %s, basin_id = %s, total_wells = %s, total_production_bbls = %s WHERE formation_id = %s;'
-
-            data = (formation_name, basin_id, total_wells, total_production_bbls, formation_id)
+            query = 'UPDATE Formations SET formation_name = %s, basin_id = %s WHERE formation_id = %s;'
+            data = (formation_name, basin_id, formation_id)
             db.execute_query(db_connection, query, data)
 
             # set relevant flash message
             flash_message = flash_messages['updated']
 
-        # DELETE row data in Formations table
-        elif 'deleteformation' in request.form:
-            formation_id = request.form['deleteformation']
+        # # DELETE row data in Formations table
+        # elif 'deleteformation' in request.form:
+        #     formation_id = request.form['deleteformation']
 
-            query = 'DELETE FROM Formations WHERE formation_id = %s'
-            data = (formation_id,)
-            db.execute_query(db_connection, query, data)
+        #     query = 'DELETE FROM Formations WHERE formation_id = %s'
+        #     data = (formation_id,)
+        #     db.execute_query(db_connection, query, data)
 
-            # set relevant flash message
-            flash_message = flash_messages['deleted']
+        #     # set relevant flash message
+        #     flash_message = flash_messages['deleted']
 
         flash(flash_message, 'success')
         return redirect(url_for('formations'))
@@ -344,8 +320,6 @@ def formations():
 @app.route('/operators-formations', methods=['GET', 'POST'])
 def operators_formations():
     db_connection = db.connect_to_database()
-    flash_messages = {'added': 'Data successfully added to Operators_Formations table.',
-                      'updated': 'Data successfully updated in Operators_Formations table.', 'deleted': 'Data successfully deleted from Operators_Formations table.'}
 
     ### reagrdless of request method, rebuild Operators_Formations table ###
     # remove all data from Operators_Formations, without dropping table
@@ -356,63 +330,15 @@ def operators_formations():
     query = "INSERT INTO Operators_Formations (company_id, formation_id) SELECT DISTINCT company_id, formation_id FROM Wells;"
     db.execute_query(db_connection=db_connection, query=query)
 
-    # Insert, Update, and Delete functionalities
-    if request.method == 'POST':
-        # INSERT row data into Operators_Formations table
-        if 'addoperatorsformations' in request.form:
-            company_id = request.form['company_id']
-            formation_id = request.form['formation_id']
+    # table data for display purposes
+    table_data = get_relationship_table_data('Operators_Formations')
 
-            query = 'INSERT INTO Operators_Formations (company_id, formation_id) VALUES (%s, %s)'
-            data = (company_id, formation_id)
-            db.execute_query(db_connection, query, data)
-
-            # set relevant flash message
-            flash_message = flash_messages['added']
-
-        # UPDATE row data in Operators_Formations table
-        elif 'updateoperatorsformations' in request.form:
-            company_id = request.form['company_id']
-            formation_id = request.form['formation_id']
-
-            query = 'UPDATE Operators_Formations SET company_id = %s, formation_id = %s WHERE company_id = %s'
-            data = (company_id, formation_id, company_id)
-            db.execute_query(db_connection, query, data)
-
-            # set relevant flash message
-            flash_message = flash_messages['updated']
-
-        # DELETE row data in Operators_Formations table
-        elif 'deleteoperatorformation' in request.form:
-            company_id = request.form['deleteoperatorformation'][1]
-            formation_id = request.form['deleteoperatorformation'][4]
-
-            query = 'DELETE FROM Operators_Formations WHERE company_id = %s AND formation_id = %s'
-            data = (company_id, formation_id)
-            db.execute_query(db_connection, query, data)
-
-            # set relevant flash message
-            flash_message = flash_messages['deleted']
-
-        flash(flash_message, 'success')
-        return redirect(url_for('operators_formations'))
-
-    ### General display data for table and dropdown menus ###
-    # Wells table for display purposes
-    table_data = get_table_data('Operators_Formations')
-
-    # data for dropdown menu display purposes
-    company_data = get_company_ids_and_names()
-    formation_data = get_formation_ids_and_names()
-
-    return render_template("operators-formations.html", table_data=table_data, company_data=company_data, formation_data=formation_data)
+    return render_template("operators-formations.html", table_data=table_data)
 
 
 @app.route('/basins-operators', methods=['GET', 'POST'])
 def basins_operators():
     db_connection = db.connect_to_database()
-    flash_messages = {'added': 'Data successfully added to Basins_Operators table.',
-                      'updated': 'Data successfully updated in Basins_Operators table.', 'deleted': 'Data successfully deleted from Basins_Operators table.'}
 
     ### reagrdless of request method, rebuild Basins_Operators table ###
     # remove all data from Basins_Operators, without dropping table
@@ -423,56 +349,10 @@ def basins_operators():
     query = "INSERT INTO Basins_Operators (basin_id, company_id) SELECT DISTINCT basin_id, company_id FROM Wells;"
     db.execute_query(db_connection=db_connection, query=query)
 
-    # Insert, Update, and Delete functionalities
-    if request.method == 'POST':
-        # INSERT row data into Basins_Operators table
-        if 'addbasinsoperators' in request.form:
-            basin_id = request.form['basin_id']
-            company_id = request.form['company_id']
+    # table data for display purposes
+    table_data = get_relationship_table_data('Basins_Operators')
 
-            query = 'INSERT INTO Basins_Operators (basin_id, company_id) VALUES (%s, %s)'
-            data = (basin_id, company_id)
-            db.execute_query(db_connection, query, data)
-
-            # set relevant flash message
-            flash_message = flash_messages['added']
-
-        # UPDATE row data in Basins_Operators table
-        elif 'updatebasinsoperators' in request.form:
-            basin_id = request.form['basin_id']
-            company_id = request.form['company_id']
-
-            query = 'UPDATE Basins_Operators SET basin_id = %s, company_id = %s WHERE basin_id = %s'
-            data = (basin_id, company_id, basin_id)
-            db.execute_query(db_connection, query, data)
-
-            # set relevant flash message
-            flash_message = flash_messages['updated']
-
-        # DELETE row data in Basins_Operators table
-        elif 'deletebasinoperator' in request.form:
-            basin_id = request.form['deletebasinoperator'][1]
-            company_id = request.form['deletebasinoperator'][4]
-
-            query = 'DELETE FROM Basins_Operators WHERE basin_id = %s AND company_id = %s'
-            data = (basin_id, company_id)
-            db.execute_query(db_connection, query, data)
-
-            # set relevant flash message
-            flash_message = flash_messages['deleted']
-
-        flash(flash_message, 'success')
-        return redirect(url_for('basins_operators'))
-
-    ### General display data for table and dropdown menus ###
-    # Wells table for display purposes
-    table_data = get_table_data('Basins_Operators')
-
-    # data for dropdown menu display purposes
-    company_data = get_company_ids_and_names()
-    basin_data = get_basin_ids_and_names()
-
-    return render_template("basins-operators.html", table_data=table_data, basin_data=basin_data, company_data=company_data)
+    return render_template("basins-operators.html", table_data=table_data)
 
 
 # Listener

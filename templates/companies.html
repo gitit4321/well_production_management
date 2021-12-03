@@ -18,23 +18,6 @@
                 {% for attribute in company.keys() %}
                 <td>{{company[attribute]}}</td>
                 {% endfor %}
-                <td>
-                    <form
-                        id="deletecompany"
-                        class="del-form"
-                        action="companies"
-                        method="POST"
-                    >
-                        <input
-                            type="hidden"
-                            name="deletecompany"
-                            value="{{ company['company_id'] }}"
-                        />
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            Delete
-                        </button>
-                    </form>
-                </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -52,7 +35,7 @@
     <div class="primary-form-container">
         <div class="form-container">
             <div class="header-container">
-                <h2>Add Company Data</h2>
+                <h2>Add Company</h2>
             </div>
             <form id="addcompany" action="companies" method="POST">
                 <div class="mb-1">
@@ -61,59 +44,20 @@
                     >
                     <input
                         type="text"
+                        required="required"
                         class="form-control"
                         name="company_name"
                     />
                 </div>
-                <div class="mb-1">
-                    <label for="total_wells" class="form-label"
-                        >Total Wells</label
-                    >
-                    <input
-                        type="number"
-                        class="form-control"
-                        name="total_wells"
-                    />
-                </div>
-                <div class="mb-1">
-                    <label for="total_production_bbls" class="form-label"
-                        >Total Production Barrels</label
-                    >
-                    <input
-                        type="number"
-                        class="form-control"
-                        name="total_production_bbls"
-                    />
-                </div>
-                <div class="mb-1">
-                    <label for="total_basins" class="form-label"
-                        >Total Basins</label
-                    >
-                    <input
-                        type="number"
-                        class="form-control"
-                        name="total_basins"
-                    />
-                </div>
-                <div class="mb-1">
-                    <label for="total_formations" class="form-label"
-                        >Total Formations</label
-                    >
-                    <input
-                        type="number"
-                        class="form-control"
-                        name="total_formations"
-                    />
-                </div>
                 <input type="hidden" name="addcompany" />
                 <button type="submit" class="btn btn-primary">
-                    Submit Well Data
+                    Submit Company
                 </button>
             </form>
         </div>
         <div class="form-container">
             <div class="header-container">
-                <h2>Update Company Data</h2>
+                <h2>Update Company</h2>
             </div>
             <form id="updatecompanies" action="/companies" method="POST">
                 <div class="mb-1">
@@ -134,53 +78,14 @@
                     >
                     <input
                         type="text"
+                        required="required"
                         class="form-control"
                         name="company_name"
                     />
                 </div>
-                <div class="mb-1">
-                    <label for="total_wells" class="form-label"
-                        >Total Wells</label
-                    >
-                    <input
-                        type="number"
-                        class="form-control"
-                        name="total_wells"
-                    />
-                </div>
-                <div class="mb-1">
-                    <label for="total_production_bbls" class="form-label"
-                        >Total Production Barrels</label
-                    >
-                    <input
-                        type="number"
-                        class="form-control"
-                        name="total_production_bbls"
-                    />
-                </div>
-                <div class="mb-1">
-                    <label for="total_basins" class="form-label"
-                        >Total Basins</label
-                    >
-                    <input
-                        type="number"
-                        class="form-control"
-                        name="total_basins"
-                    />
-                </div>
-                <div class="mb-1">
-                    <label for="total_formations" class="form-label"
-                        >Total Formations</label
-                    >
-                    <input
-                        type="number"
-                        class="form-control"
-                        name="total_formations"
-                    />
-                </div>
                 <input type="hidden" name="updatecompany" />
                 <button type="submit" class="btn btn-primary">
-                    Update Well Data
+                    Update Company
                 </button>
             </form>
         </div>
