@@ -22,6 +22,7 @@ def root():
 @app.route('/wells', methods=['GET', 'POST'])
 def wells():
     db_connection = db.connect_to_database()
+    db_connection.ping(True)
     flash_messages = {'added': 'Data successfully added to Wells table.', 'updated': 'Data successfully updated in Wells table.', 'deleted': 'Data successfully deleted from Wells table.'}
 
     # Insert, Update, and Delete functionalities
@@ -72,6 +73,58 @@ def wells():
             # set relevant flash message
             flash_message = flash_messages['deleted']
 
+        ### reagrdless of request method, rebuild Operators_Formations table ###
+        # remove all data from Operators_Formations, without dropping table
+        query = "DELETE FROM Operators_Formations;"
+        db.execute_query(db_connection=db_connection, query=query)
+
+        # repopulate table with current data
+        query = "INSERT INTO Operators_Formations (company_id, formation_id) SELECT DISTINCT company_id, formation_id FROM Wells;"
+        db.execute_query(db_connection=db_connection, query=query)
+
+        ### reagrdless of request method, rebuild Basins_Operators table ###
+        # remove all data from Basins_Operators, without dropping table
+        query = "DELETE FROM Basins_Operators;"
+        db.execute_query(db_connection=db_connection, query=query)
+
+        # repopulate table with current data
+        query = "INSERT INTO Basins_Operators (basin_id, company_id) SELECT DISTINCT basin_id, company_id FROM Wells;"
+        db.execute_query(db_connection=db_connection, query=query)
+        # run all aggregate functions to update values on other tables
+
+        # iterate through all existing companies and run aggregate functions
+        query = "SELECT company_id FROM Companies ORDER BY company_id;"
+        cursor = db.execute_query(db_connection=db_connection, query=query)
+        companies = cursor.fetchall()
+        for company in companies:
+            company_id = company['company_id']
+
+            query = "UPDATE Companies SET total_wells = (SELECT COUNT(*) FROM Wells WHERE company_id = %s), total_production_bbls = (SELECT SUM(total_production_bbls) FROM Wells WHERE company_id = %s), total_basins = (SELECT COUNT(*) FROM Basins_Operators WHERE company_id = %s), total_formations = (SELECT COUNT(*) FROM Operators_Formations WHERE company_id = %s) WHERE company_id = %s;"
+            data = (company_id, company_id, company_id, company_id, company_id)
+            db.execute_query(db_connection, query, data)
+
+        # iterate through all existing basins and run aggregate functions
+        query = "SELECT basin_id FROM Basins ORDER BY basin_id;"
+        cursor = db.execute_query(db_connection=db_connection, query=query)
+        basins = cursor.fetchall()
+        for basin in basins:
+            basin_id = basin['basin_id']
+
+            query = "UPDATE Basins SET total_wells = (SELECT COUNT(*) FROM Wells WHERE basin_id = %s), total_formations = (SELECT COUNT(DISTINCT formation_id) FROM Wells WHERE basin_id = %s), total_production_bbls = (SELECT SUM(total_production_bbls) FROM Wells WHERE basin_id = %s) WHERE basin_id = %s;"
+            data = (basin_id, basin_id, basin_id, basin_id)
+            db.execute_query(db_connection, query, data)
+
+        # iterate through all existing formations and run aggregate functions
+        query = "SELECT formation_id FROM Formations ORDER BY formation_id;"
+        cursor = db.execute_query(db_connection=db_connection, query=query)
+        formations = cursor.fetchall()
+        for formation in formations:
+            formation_id = formation['formation_id']
+
+            query = "UPDATE Formations SET total_wells = (SELECT COUNT(*) FROM Wells WHERE formation_id = %s),total_production_bbls = (SELECT SUM(total_production_bbls) FROM Wells WHERE formation_id = %s) WHERE formation_id = %s;"
+            data = (formation_id, formation_id, formation_id)
+            db.execute_query(db_connection, query, data)
+
         flash(flash_message, 'success')
         return redirect(url_for('wells'))
 
@@ -91,6 +144,7 @@ def wells():
 @app.route('/search-wells', methods=['GET', 'POST'])
 def search_for_well():
     db_connection = db.connect_to_database()
+    db_connection.ping(True)
 
     ### General display data for table and dropdown menus ###
     # Wells table for display purposes
@@ -121,7 +175,8 @@ def search_for_well():
 @app.route('/companies', methods=['GET', 'POST'])
 def companies():
     db_connection = db.connect_to_database()
-    flash_messages = {'added': 'Data successfully added to Companies table.', 'updated': 'Data successfully updated in Companies table.', 'deleted': 'Data successfully deleted from Companies table.'}
+    db_connection.ping(True)
+    flash_messages = {'added': 'Data successfully added to Companies table.', 'updated': 'Data successfully updated in Companies table.'}
 
     # iterate through all existing companies and run aggregate functions
     query = "SELECT company_id FROM Companies ORDER BY company_id;"
@@ -159,17 +214,6 @@ def companies():
             # set relevant flash message
             flash_message = flash_messages['updated']
 
-        # # DELETE row data in Companies table
-        # elif 'deletecompany' in request.form:
-        #     company_id = request.form['deletecompany']
-
-        #     query = 'DELETE FROM Companies WHERE company_id = %s'
-        #     data = (company_id,)
-        #     db.execute_query(db_connection, query, data)
-
-        #     # set relevant flash message
-        #     flash_message = flash_messages['deleted']
-
         flash(flash_message, 'success')
         return redirect(url_for('companies'))
 
@@ -186,7 +230,8 @@ def companies():
 @app.route('/basins', methods=['GET', 'POST'])
 def basins():
     db_connection = db.connect_to_database()
-    flash_messages = {'added': 'Data successfully added to Basins table.', 'updated': 'Data successfully updated in Basins table.', 'deleted': 'Data successfully deleted from Basins table.'}
+    db_connection.ping(True)
+    flash_messages = {'added': 'Data successfully added to Basins table.', 'updated': 'Data successfully updated in Basins table.'}
 
     # iterate through all existing basins and run aggregate functions
     query = "SELECT basin_id FROM Basins ORDER BY basin_id;"
@@ -224,17 +269,6 @@ def basins():
             # set relevant flash message
             flash_message = flash_messages['updated']
 
-        # # DELETE row data in Basin table
-        # elif 'deletebasin' in request.form:
-        #     basin_id = request.form['deletebasin']
-
-        #     query = 'DELETE FROM Basins WHERE basin_id = %s'
-        #     data = (basin_id,)
-        #     db.execute_query(db_connection, query, data)
-
-        #     # set relevant flash message
-        #     flash_message = flash_messages['deleted']
-
         flash(flash_message, 'success')
         return redirect(url_for('basins'))
 
@@ -251,8 +285,8 @@ def basins():
 @app.route('/formations', methods=['GET', 'POST'])
 def formations():
     db_connection = db.connect_to_database()
-    flash_messages = {'added': 'Data successfully added to Formations table.',
-                      'updated': 'Data successfully updated in Formations table.', 'deleted': 'Data successfully deleted from Formations table.'}
+    db_connection.ping(True)
+    flash_messages = {'added': 'Data successfully added to Formations table.', 'updated': 'Data successfully updated in Formations table.'}
 
     # iterate through all existing formations and run aggregate functions
     query = "SELECT formation_id FROM Formations ORDER BY formation_id;"
@@ -292,17 +326,6 @@ def formations():
             # set relevant flash message
             flash_message = flash_messages['updated']
 
-        # # DELETE row data in Formations table
-        # elif 'deleteformation' in request.form:
-        #     formation_id = request.form['deleteformation']
-
-        #     query = 'DELETE FROM Formations WHERE formation_id = %s'
-        #     data = (formation_id,)
-        #     db.execute_query(db_connection, query, data)
-
-        #     # set relevant flash message
-        #     flash_message = flash_messages['deleted']
-
         flash(flash_message, 'success')
         return redirect(url_for('formations'))
 
@@ -319,17 +342,6 @@ def formations():
 
 @app.route('/operators-formations', methods=['GET', 'POST'])
 def operators_formations():
-    db_connection = db.connect_to_database()
-
-    ### reagrdless of request method, rebuild Operators_Formations table ###
-    # remove all data from Operators_Formations, without dropping table
-    query = "DELETE FROM Operators_Formations;"
-    db.execute_query(db_connection=db_connection, query=query)
-
-    # repopulate table with current data
-    query = "INSERT INTO Operators_Formations (company_id, formation_id) SELECT DISTINCT company_id, formation_id FROM Wells;"
-    db.execute_query(db_connection=db_connection, query=query)
-
     # table data for display purposes
     table_data = get_relationship_table_data('Operators_Formations')
 
@@ -338,17 +350,6 @@ def operators_formations():
 
 @app.route('/basins-operators', methods=['GET', 'POST'])
 def basins_operators():
-    db_connection = db.connect_to_database()
-
-    ### reagrdless of request method, rebuild Basins_Operators table ###
-    # remove all data from Basins_Operators, without dropping table
-    query = "DELETE FROM Basins_Operators;"
-    db.execute_query(db_connection=db_connection, query=query)
-
-    # repopulate table with current data
-    query = "INSERT INTO Basins_Operators (basin_id, company_id) SELECT DISTINCT basin_id, company_id FROM Wells;"
-    db.execute_query(db_connection=db_connection, query=query)
-
     # table data for display purposes
     table_data = get_relationship_table_data('Basins_Operators')
 
